@@ -1,9 +1,8 @@
-#include "Arduino.h"
-#include "SlotMachineBopIt.h"
+#include "slot_machine.h";
 
 SlotMachineBopIt::SlotMachineBopIt() {
-  game_start = false;
-  score = 0; 
+    game_start = false;
+    score = 0; 
 }
 SlotMachineBopIt::bool coinVerifier(int pin) {
     
