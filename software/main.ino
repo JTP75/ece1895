@@ -1,4 +1,4 @@
-#include "slotmachinebopit.c"
+#include "bopit.h"
 
 void setup() {
 
