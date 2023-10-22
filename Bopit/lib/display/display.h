@@ -10,7 +10,10 @@ class Display {
         int score;
     public:
         Display();
-        void update_score();
+        void update_score(int);
+        void start_screen();
+        void win_display();
+        void lose_display();
         void load_slots_screen();
         void load_roulette_screen();
         void load_pachinko_screen();
