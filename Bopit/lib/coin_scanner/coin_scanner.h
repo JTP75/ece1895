@@ -8,8 +8,9 @@ class CoinScanner {
         float balance;
 
         CoinScanner();
-        void poll_scanner() const;
+        void poll_scanner(int t);
         void increment_balance();
+        bool return_coins();
 };
 
 #endif

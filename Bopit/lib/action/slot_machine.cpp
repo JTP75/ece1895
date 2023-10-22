@@ -12,7 +12,7 @@ SlotMachine::SlotMachine() {
  * @brief   starts slot machine game
 */
 void SlotMachine::start() {
-    Serial.write("Starting Slots");
+    Serial.write("Starting Slots\n");
     in_progress = true;
 }
 
@@ -20,7 +20,7 @@ void SlotMachine::start() {
  * @brief   stops slots game
 */
 void SlotMachine::stop() {
-    Serial.write("Slots game over");
+    Serial.write("Slots game over\n");
     in_progress = false;
 }
 
@@ -29,7 +29,7 @@ void SlotMachine::stop() {
  * @returns true if action is completed
 */
 bool SlotMachine::is_completed() {
-    bool status = true;
+    bool status = false;
     if (status) stop();
     return status;
 }

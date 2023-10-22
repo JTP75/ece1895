@@ -14,7 +14,7 @@ Pachinko::Pachinko() {
  * @brief   starts pachinko game
 */
 void Pachinko::start() {
-    Serial.write("Starting Pachinko");
+    Serial.write("Starting Pachinko\n");
     in_progress = true;
 }
 
@@ -22,7 +22,7 @@ void Pachinko::start() {
  * @brief   stops pachinko game
 */
 void Pachinko::stop() {
-    Serial.write("Pachinko game over");
+    Serial.write("Pachinko game over\n");
     in_progress = false;
 }
 
@@ -31,7 +31,7 @@ void Pachinko::stop() {
  * @returns true if action is complete
 */
 bool Pachinko::is_completed() {
-    bool status = true;
+    bool status = false;
     if (status) stop();
     return status;
 }

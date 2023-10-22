@@ -10,7 +10,7 @@ BopIt::BopIt() {
     pachinko_machine = Pachinko();
     coin_scanner = CoinScanner();
     display = Display();
-    power_button = PowerButton(POWER_BUTTON_PIN);
+    power_button = PowerButton();
 
     state = off;
 
@@ -31,66 +31,103 @@ BopItState BopIt::get_curr_state() const {
 */
 BopItState BopIt::get_next_state() {
     update_time();
-    BopItState next_state;
+    
     switch (this->state) {
         case off:
             if (power_button.is_pressed()) {
-                next_state = awaiting_coin;
-                delay(100);
+                Serial.write("state -> ins coin\n");
+                delay(200);
                 set_timer_start();
+                return awaiting_coin;
             } else {
-                next_state = off;
+                return off;
             }
-            break;
         case awaiting_coin:
+            coin_scanner.poll_scanner(get_timer_delta());
             if (coin_scanner.balance>=0.25) {
-                next_state = select_random_game();
+                Serial.write("state -> game\n");
                 set_timer_start();
+                return select_random_game();
             } else if (power_button.is_pressed()) {
-                next_state = off;
-                delay(100);
+                Serial.write("state -> off\n");
+                delay(200);
+                return off;
             } else {
-                next_state = awaiting_coin;
+                return awaiting_coin;
             }
-            break;
         case slots: 
             if (slot_machine.is_completed()) {
-                next_state = game_over_win;
+                Serial.write("state -> win\n");
+                set_timer_start();
+                return game_over_win;
+            } else if (power_button.is_pressed()) {
+                Serial.write("state -> off\n");
+                delay(200);
+                return off;
             } else if (get_timer_delta()>=time_limit) {
-                next_state = game_over_lose;
+                Serial.write("state -> loser\n");
+                set_timer_start();
+                return game_over_lose;
             } else {
-                next_state = slots;
+                return slots;
             }
-            break;
         case pachinko:
             if (slot_machine.is_completed()) {
-                next_state = game_over_win;
+                Serial.write("state -> win\n");
+                set_timer_start();
+                return game_over_win;
+            } else if (power_button.is_pressed()) {
+                Serial.write("state -> off\n");
+                delay(200);
+                return off;
             } else if (get_timer_delta()>=time_limit) {
-                next_state = game_over_lose;
+                Serial.write("state -> loser\n");
+                set_timer_start();
+                return game_over_lose;
             } else {
-                next_state = pachinko;
+                return pachinko;
             }
-            break;
         case roulette:
             if (slot_machine.is_completed()) {
-                next_state = game_over_win;
+                Serial.write("state -> win\n");
+                set_timer_start();
+                return game_over_win;
+            } else if (power_button.is_pressed()) {
+                Serial.write("state -> off\n");
+                delay(200);
+                return off;
             } else if (get_timer_delta()>=time_limit) {
-                next_state = game_over_lose;
+                Serial.write("state -> loser\n");
+                set_timer_start();
+                return game_over_lose;
             } else {
-                next_state = roulette;
+                return roulette;
             }
-            break;
         case game_over_lose:
-            delay(2000);
-            next_state = awaiting_coin;
-            break;
+            if (get_timer_delta() >= 5000) {
+                // no coin return: we keep the money if they lose >:)
+                Serial.write("state -> ins coin\n");
+                return awaiting_coin;
+            } else if (power_button.is_pressed()) {
+                Serial.write("state -> off\n");
+                delay(200);
+                return off;
+            } else {
+                return game_over_lose;
+            }
         case game_over_win:
-            delay(2000);
-            next_state = awaiting_coin;
-            break;
+            if (get_timer_delta() >= 5000) {
+                coin_scanner.return_coins();
+                Serial.write("state -> ins coin\n");
+                return awaiting_coin;
+            } else if (power_button.is_pressed()) {
+                Serial.write("state -> off\n");
+                delay(200);
+                return off;
+            } else {
+                return game_over_win;
+            }
     }
-
-    return next_state;
 }
 
 /**
