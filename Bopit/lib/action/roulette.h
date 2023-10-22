@@ -5,8 +5,11 @@
 
 class Roulette : public Action {
     public:
+        static const int spin_pin = 10;
+
         Roulette();
         void start();
+        void stop();
         bool is_completed();
 };
 

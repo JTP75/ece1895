@@ -5,10 +5,10 @@
 
 class PowerButton {
     private:
-        int pin;
     public:
+        static const int pb_pin = 7;
+
         PowerButton();
-        PowerButton(int pin);
         bool is_pressed() const;
 };
 

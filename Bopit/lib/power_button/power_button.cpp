@@ -1,14 +1,16 @@
 #include <power_button.h>
 
-
+/**
+ * @brief   power button ctor
+*/
 PowerButton::PowerButton() {
-    pin=0;
-    pinMode(pin, INPUT);
+    pinMode(pb_pin, INPUT);
 }
-PowerButton::PowerButton(int pin) {
-    this->pin=pin;
-    pinMode(pin, INPUT);
-}
+
+/**
+ * @brief   gets button press
+ * @returns true if button is pressed
+*/
 bool PowerButton::is_pressed() const {
-    return digitalRead(pin)==HIGH;
+    return digitalRead(pb_pin)==HIGH;
 }
