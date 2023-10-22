@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef ARDUINO
+#include <Arduino.h>
+#endif
+
 class Action {
     private: 
         int device;

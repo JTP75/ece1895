@@ -7,6 +7,10 @@
 #include "pachinko.h"
 #include "coin_scanner.h"
 
+#ifdef ARDUINO
+#include <Arduino.h>
+#endif
+
 enum BopItState {
     off,
     awaiting_coin,
@@ -19,16 +23,19 @@ enum BopItState {
 
 class BopIt {
     public:
-        BopIt();
-        
 
-    private:
+        BopIt();
+
+        /* interfaces */
         SlotMachine slot_machine;
         Roulette roulette;
         Pachinko pachinko;
         CoinScanner coin_scanner;
         Display display;
         PowerButton power_button;
+
+    private:
+    
         BopItState state;
 };
 
