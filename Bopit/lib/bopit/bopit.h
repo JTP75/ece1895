@@ -25,6 +25,8 @@ enum BopItState {
 class BopIt {
     public:
 
+        static const int time_limit = 10000;
+
         BopIt();
         BopItState get_curr_state() const;
 
@@ -48,6 +50,7 @@ class BopIt {
 
         void set_timer_start();
         time_t get_timer_delta() const;
+        BopItState select_random_game();
 };
 
 #endif

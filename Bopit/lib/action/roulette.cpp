@@ -4,6 +4,7 @@ Roulette::Roulette() {
     in_progress = false;
 }
 void Roulette::start() {
+    Serial.write("Starting Roulette");
     in_progress = true;
 }
 bool Roulette::is_completed() {

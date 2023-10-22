@@ -4,6 +4,7 @@ Pachinko::Pachinko() {
     in_progress = false;
 }
 void Pachinko::start() {
+    Serial.write("Starting Pachinko");
     in_progress = true;
 }
 bool Pachinko::is_completed() {
