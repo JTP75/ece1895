@@ -13,7 +13,7 @@ Roulette::Roulette() {
  * @brief   starts roulette game
 */
 void Roulette::start() {
-    Serial.write("Starting Roulette");
+    Serial.write("Starting Roulette\n");
     in_progress = true;
 }
 
@@ -21,7 +21,7 @@ void Roulette::start() {
  * @brief   stops roulette game
 */
 void Roulette::stop() {
-    Serial.write("Roulette game over");
+    Serial.write("Roulette game over\n");
     in_progress = false;
 }
 
@@ -30,7 +30,7 @@ void Roulette::stop() {
  * @returns true if action is complete
 */
 bool Roulette::is_completed() {
-    bool status = true;
+    bool status = false;
     if (status) stop();
     return status;
 }

@@ -19,13 +19,5 @@ void setup() {
 }
 
 void loop() {
-  bopit->update_state();
-  if (bopit->get_curr_state()==off) {
-    Serial.write("Off\n");
-    digitalWrite(COMPLETE_PIN, LOW);
-  } else {
-    Serial.write("On\n");
-    digitalWrite(COMPLETE_PIN, HIGH);
-  }
-  
+  bopit->update_state();  
 }
