@@ -10,8 +10,6 @@
 #include <pachinko.h>
 #include <coin_scanner.h>
 
-const int POWER_BUTTON_PIN = 7;
-
 enum BopItState {
     off,
     awaiting_coin,
@@ -30,9 +28,11 @@ class BopIt {
         BopIt();
         BopItState get_curr_state() const;
 
-        BopItState get_next_state();
         void update_state();
         void update_time();
+        
+        /* isr */
+        void power_button_pressed();
 
         /* interfaces */
         SlotMachine slot_machine;
@@ -48,9 +48,13 @@ class BopIt {
         time_t current_time;
         time_t start_time;
 
-        void set_timer_start();
-        time_t get_timer_delta() const;
-        BopItState select_random_game();
+        void next_state_logic();
+        void do_state_action();
+        void do_state_change_action();
+
+        void start_timer();
+        time_t get_timer() const;
+        BopItState select_random_game() const;
 };
 
 #endif

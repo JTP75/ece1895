@@ -34,3 +34,7 @@ bool Roulette::is_completed() {
     if (status) stop();
     return status;
 }
+
+bool Roulette::over() const {
+    return !in_progress;
+}
