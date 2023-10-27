@@ -6,7 +6,7 @@
 class PowerButton {
     private:
     public:
-        static const int pb_pin = 7;
+        static const int pin = 2;
 
         PowerButton();
         bool is_pressed() const;

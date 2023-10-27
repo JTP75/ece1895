@@ -1,23 +1,37 @@
 #include <Arduino.h>
 #include <bopit.h>
 #include <HardwareSerial.h>
-
-const int COMPLETE_PIN = 6;
+#include <Arduino_GFX.h>
+#include <SPI.h>
 
 BopIt *bopit;
 
+/* interrupt handlers */
+void power_button_isr();
+
+
 void setup() {
-  pinMode(COMPLETE_PIN, OUTPUT);
-  digitalWrite(COMPLETE_PIN,LOW);
 
-  Serial.begin(9600);
-  while (!Serial);
+    Serial.begin(9600);
+    while (!Serial);
 
+    // construct
+    bopit = new BopIt();
 
-  bopit = new BopIt();
-  Serial.write("Setup Complete!\n");
+    // attach power button interrupt
+    attachInterrupt(digitalPinToInterrupt(bopit->power_button.pin), power_button_isr, RISING);
+
+    Serial.write("Setup Complete!\n");
+
 }
 
 void loop() {
-  bopit->update_state();  
+
+    bopit->update_state();
+
+}
+
+/* interrupt handlers */
+void power_button_isr() {
+    bopit->power_button_pressed();
 }

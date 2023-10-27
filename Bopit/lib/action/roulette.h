@@ -11,6 +11,7 @@ class Roulette : public Action {
         void start();
         void stop();
         bool is_completed();
+        bool over() const;
 };
 
 #endif

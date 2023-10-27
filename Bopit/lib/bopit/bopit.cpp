@@ -26,107 +26,108 @@ BopItState BopIt::get_curr_state() const {
 }
 
 /**
+ * @brief handler for power button interrupt (called by wrapper in main)
+ * 
+ */
+void BopIt::power_button_pressed() {
+    if (state==off) {
+        state = awaiting_coin;
+    } else {
+        state = off;
+    }
+    do_state_change_action();
+}
+
+/**
  * @brief   updates internal clock and performs state machine logic
  * @returns next state enum based on current state and internal logic
+ * 
+ * @note    called every main loop iteration
 */
-BopItState BopIt::get_next_state() {
-    update_time();
-    
+void BopIt::next_state_logic() { 
     switch (this->state) {
         case off:
-            if (power_button.is_pressed()) {
-                Serial.write("state -> ins coin\n");
-                delay(200);
-                set_timer_start();
-                return awaiting_coin;
-            } else {
-                return off;
+        break; case awaiting_coin:
+            if (coin_scanner.balance>=0.25 || get_timer()>1000) {
+                state = select_random_game();
             }
-        case awaiting_coin:
-            coin_scanner.poll_scanner(get_timer_delta());
-            if (coin_scanner.balance>=0.25) {
-                Serial.write("state -> game\n");
-                set_timer_start();
-                return select_random_game();
-            } else if (power_button.is_pressed()) {
-                Serial.write("state -> off\n");
-                delay(200);
-                return off;
-            } else {
-                return awaiting_coin;
+        break; case slots: 
+            if (slot_machine.over()) {
+                state = game_over_win;
+            } else if (get_timer()>=time_limit) {
+                state = game_over_lose;
             }
-        case slots: 
-            if (slot_machine.is_completed()) {
-                Serial.write("state -> win\n");
-                set_timer_start();
-                return game_over_win;
-            } else if (power_button.is_pressed()) {
-                Serial.write("state -> off\n");
-                delay(200);
-                return off;
-            } else if (get_timer_delta()>=time_limit) {
-                Serial.write("state -> loser\n");
-                set_timer_start();
-                return game_over_lose;
-            } else {
-                return slots;
+        break; case pachinko:
+            if (pachinko_machine.over()) {
+                state = game_over_win;
+            } else if (get_timer()>=time_limit) {
+                state = game_over_lose;
             }
-        case pachinko:
-            if (slot_machine.is_completed()) {
-                Serial.write("state -> win\n");
-                set_timer_start();
-                return game_over_win;
-            } else if (power_button.is_pressed()) {
-                Serial.write("state -> off\n");
-                delay(200);
-                return off;
-            } else if (get_timer_delta()>=time_limit) {
-                Serial.write("state -> loser\n");
-                set_timer_start();
-                return game_over_lose;
-            } else {
-                return pachinko;
+        break; case roulette:
+            if (roulette_machine.over()) {
+                state = game_over_win;
+            } else if (get_timer()>=time_limit) {
+                state = game_over_lose;
             }
-        case roulette:
-            if (slot_machine.is_completed()) {
-                Serial.write("state -> win\n");
-                set_timer_start();
-                return game_over_win;
-            } else if (power_button.is_pressed()) {
-                Serial.write("state -> off\n");
-                delay(200);
-                return off;
-            } else if (get_timer_delta()>=time_limit) {
-                Serial.write("state -> loser\n");
-                set_timer_start();
-                return game_over_lose;
-            } else {
-                return roulette;
+        break; case game_over_lose:
+            if (get_timer() >= 2000) {
+                state = awaiting_coin;
             }
-        case game_over_lose:
-            if (get_timer_delta() >= 5000) {
-                // no coin return: we keep the money if they lose >:)
-                Serial.write("state -> ins coin\n");
-                return awaiting_coin;
-            } else if (power_button.is_pressed()) {
-                Serial.write("state -> off\n");
-                delay(200);
-                return off;
-            } else {
-                return game_over_lose;
+        break; case game_over_win:
+            if (get_timer() >= 2000) {
+                state = awaiting_coin;
             }
-        case game_over_win:
-            if (get_timer_delta() >= 5000) {
-                coin_scanner.return_coins();
-                Serial.write("state -> ins coin\n");
-                return awaiting_coin;
-            } else if (power_button.is_pressed()) {
-                Serial.write("state -> off\n");
-                delay(200);
-                return off;
-            } else {
-                return game_over_win;
-            }
+        break;
+    }
+}
+
+/**
+ * @brief   performs functions for each state
+ * 
+ * @note    called every main loop iteration
+ */
+void BopIt::do_state_action() {
+    switch (this->state) {
+        case off:
+        break; case awaiting_coin:
+        break; case slots: 
+        break; case pachinko:
+        break; case roulette:
+        break; case game_over_lose:
+        break; case game_over_win:
+        break;
+    }
+}
+
+/**
+ * @brief   performs functions for each state
+ * 
+ * @note    called ONCE per state change
+ * @todo    double-check that ^^
+ */
+void BopIt::do_state_change_action() {
+    switch (this->state) {
+        case off:
+            Serial.write("off\n");
+        break; case awaiting_coin:
+            Serial.write("await coin\n");
+            start_timer();
+        break; case slots: 
+            Serial.write("slots\n");
+            start_timer();
+        break; case pachinko:
+            Serial.write("pachinko\n");
+            start_timer();
+        break; case roulette:
+            Serial.write("roulette\n");
+            start_timer();
+        break; case game_over_lose:
+            Serial.write("loser\n");
+            start_timer();
+        break; case game_over_win:
+            Serial.write("winner\n");
+            start_timer();
+        break;
     }
 }
 
@@ -135,7 +136,13 @@ BopItState BopIt::get_next_state() {
  * @post    game cycles to next state
 */
 void BopIt::update_state() {
-    state = get_next_state();
+    update_time();
+    BopItState prev_state = state;
+    next_state_logic();
+    if (prev_state != state) {
+        do_state_change_action();
+    }
+    do_state_action();
 }
 
 /**
@@ -148,7 +155,7 @@ void BopIt::update_time() {
 /**
  * @brief   sets internal timer start time to current time
 */
-void BopIt::set_timer_start() {
+void BopIt::start_timer() {
     start_time = current_time;
 }
 
@@ -156,7 +163,7 @@ void BopIt::set_timer_start() {
  * @brief   gets the timer value
  * @returns time delta: the difference between current time and start time
 */
-time_t BopIt::get_timer_delta() const {
+time_t BopIt::get_timer() const {
     return current_time-start_time;
 }
 
@@ -165,16 +172,14 @@ time_t BopIt::get_timer_delta() const {
  * @returns state enum for selected game: slots, roulette, or pachinko
  * @post    game is started
 */
-BopItState BopIt::select_random_game() {
+BopItState BopIt::select_random_game() const {
     switch (rand()%3) {
         case 0: 
-            slot_machine.start();
             return slots;
         case 1: 
-            pachinko_machine.start();
             return pachinko;
         case 2: 
-            roulette_machine.start();
             return roulette;
     }
+    return off;
 }

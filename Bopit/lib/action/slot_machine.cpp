@@ -33,3 +33,7 @@ bool SlotMachine::is_completed() {
     if (status) stop();
     return status;
 }
+
+bool SlotMachine::over() const {
+    return !in_progress;
+}
