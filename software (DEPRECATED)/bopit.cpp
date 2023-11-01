@@ -3,7 +3,7 @@
 BopIt::BopIt() {
   Serial.println("BopIt constructor called");
   disp = new Display();
-  timer1 = 1000;
+  timer1 = 5000;
   state = awaiting_coin;
 }
 
@@ -41,11 +41,15 @@ BopItState BopIt::action() {
 
 void BopIt::slots_game() {
   disp->load_slots_screen();
+  state = slots;
   timeBegin = millis();
-  while(timeBegin - 0 != timer1) {
-    Serial.println(timeBegin);
-    if (analogRead(A1) > 1000) {
+  while(millis() - timeBegin < timer1) {
+    Serial.println("slots");
+    if (analogRead(A1) > 725) {
+      delay(750);
+      Serial.println(state);
       disp->update_score(1);
+      state = start;
       return;
       }
   }
@@ -55,11 +59,15 @@ void BopIt::slots_game() {
 
 void BopIt::roulette_game() {
   disp->load_roulette_screen();
+  state = roulette;
   timeBegin = millis();
-  while(timeBegin - 0 != timer1) {
-    Serial.println(analogRead(A3));
-    if (analogRead(A3) > 1000) {
+  while(millis() - timeBegin < timer1) {
+    Serial.println("roulette");
+    if (analogRead(A3) > 725) {
+      delay(750);
+      Serial.println(state);
       disp->update_score(1);
+      state = start;
       return;
     }
   }
@@ -69,11 +77,15 @@ void BopIt::roulette_game() {
 
 void BopIt::pachinko_game() {
   disp->load_pachinko_screen();
+  state=pachinko;
   timeBegin = millis();
-  while(timeBegin - 0 != timer1) {
-    Serial.println(analogRead(A2));
-    if (analogRead(A2) > 1000) {
+  while(millis() - timeBegin < timer1) {
+    Serial.println("pachinko");
+    if (analogRead(A2) > 725) {
+      delay(750);
+      Serial.println(state);
       disp->update_score(1);
+      state = start;
       return;
     }
   }

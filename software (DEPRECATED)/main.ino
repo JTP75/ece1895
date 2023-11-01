@@ -5,8 +5,8 @@
 // analog pins
 const int coin_scanner_pin = A0;
 const int lever_pin = A1;
-const int joystick_y_pin = A2;
-const int roulette_pin = A3;
+const int roulette_pin = A2;
+const int joystick_y_pin = A3;
 
 int main() {
   init();
@@ -24,28 +24,33 @@ int main() {
   game.disp->start_screen();
 
   //scanning for coin
-  while (game.get_curr_state() == awaiting_coin) {
-    Serial.println(analogRead(coin_scanner_pin));
-    if (analogRead(coin_scanner_pin) > 1000) {
-      game.set_state(start);
+  while(1) {
+    while (game.get_curr_state() == awaiting_coin) {
+      Serial.println(analogRead(coin_scanner_pin));
+      if (analogRead(coin_scanner_pin) > 725) {
+        delay(175);
+        game.set_state(start);
+      }
+      delay(250);
     }
-    delay(500);
+  
+    do {
+      BopItState choice = game.action();
+      switch(choice) {
+         case slots:
+            game.slots_game();
+            break;
+         case pachinko:
+            game.pachinko_game();
+            break;
+         case roulette:
+            game.roulette_game();
+            break;
+      }
+    } while (game.get_curr_state() == start);
+    delay(1000);
+    game.set_state(awaiting_coin);
+    game.disp->start_screen();
+    //Wire.endTransmission();
   }
-
-  do {
-    BopItState choice = game.action();
-    switch(choice) {
-       case slots:
-          game.slots_game();
-          break;
-       case pachinko:
-          game.pachinko_game();
-          break;
-       case roulette:
-          game.roulette_game();
-          break;
-    }
-  } while (game.get_curr_state() != game_over);
-
-  //Wire.endTransmission();
 }
