@@ -1,42 +1,36 @@
-#pragma once
+#ifndef BopIt_h
+#define BopIt_h
 
-#include "power_button.h"
-#include "display.h"
-#include "slot_machine.h"
-#include "roulette.h"
-#include "pachinko.h"
-#include "coin_scanner.h"
-
-#ifdef ARDUINO
-#include <Arduino.h>
-#endif
+#include "Display.h"
 
 enum BopItState {
     off,
     awaiting_coin,
+    wait,
+    start,
+    success,
+    fail,
     slots,
     pachinko,
     roulette,
-    game_over_win,
-    game_over_lose
+    game_over
 };
 
 class BopIt {
-    public:
+  public:
+    BopIt();
+    ~BopIt();
+    void slots_game();
+    void roulette_game();
+    void pachinko_game();
+    void set_state(BopItState);
+    BopItState action();
+    BopItState get_curr_state() const;
+    Display *disp;
 
-        BopIt();
-
-        /* interfaces */
-        SlotMachine slot_machine;
-        Roulette roulette;
-        Pachinko pachinko;
-        CoinScanner coin_scanner;
-        Display display;
-        PowerButton power_button;
-
-    private:
-    
-        BopItState state;
+  private:
+    BopItState state;
+    unsigned long timer1;
+    unsigned long timeBegin;
 };
-
-#include "bopit.cpp";
+#endif
