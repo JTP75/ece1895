@@ -83,7 +83,7 @@ void loop() {
         case roulette_done:
         break;
         case pachinko:
-            if (analogRead(JS_DOWN_PIN)>=1020) {
+            if (analogRead(JS_DOWN_PIN)>=1000) {
                 Serial.println("Pachinko done");
                 state = pachinko_done;
             }
