@@ -1,7 +1,8 @@
-#ifndef BopIt_h
-#define BopIt_h
+#ifndef BOPIT_H
+#define BOPIT_H
 
-#include "Display.h"
+#include <display.h>
+#include <slotmachine.h>
 
 enum BopItState {
     off,
@@ -26,11 +27,13 @@ class BopIt {
     void set_state(BopItState);
     BopItState action();
     BopItState get_curr_state() const;
+    Display *disp;
+    Slotmachine *slotmachine;
 
   private:
     BopItState state;
-    Display *disp;
     unsigned long timer1;
     unsigned long timeBegin;
 };
+
 #endif
