@@ -5,35 +5,34 @@
 #include <slotmachine.h>
 
 enum BopItState {
-    off,
-    awaiting_coin,
-    wait,
-    start,
-    success,
-    fail,
+    await,
     slots,
     pachinko,
     roulette,
-    game_over
+    win,
+    lose    
 };
 
 class BopIt {
   public:
     BopIt();
     ~BopIt();
-    void slots_game();
-    void roulette_game();
-    void pachinko_game();
-    void set_state(BopItState);
-    BopItState action();
-    BopItState get_curr_state() const;
-    Display *disp;
-    Slotmachine *slotmachine;
+
+    void start_slots();
+    void spin_slots(bool win);
+
+    void start_roulette();
+    void start_pachinko();
+
+    void set_state(const BopItState &s);
+    const BopItState &get_curr_state() const;
+
+    Display disp;
 
   private:
     BopItState state;
-    unsigned long timer1;
-    unsigned long timeBegin;
+    unsigned long current_time;
+    unsigned long start_time;
 };
 
 #endif

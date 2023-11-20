@@ -1,84 +1,107 @@
 #include <display.h>
 
-Display::Display() : disp(0x27,16,2) {
-  //Serial.begin(9600);
-  score = 0;
-  Serial.println("Display constructor successfully called.");
-  disp.init();
-  disp.backlight();  // Make sure backlight is on
-  disp.clear();
-  disp.setCursor(0,0);
-  disp.print("Loading...");
-  delay(1000); // delay for seed
+//static const char* slots_reel[] PROGMEM = {"diamond","heart","club","spade"};
+
+/* drawing */
+void draw_start(DISPLAY_T &);
+void draw_win(DISPLAY_T &);
+void draw_lose(DISPLAY_T &);
+void draw_slots(DISPLAY_T &);
+void draw_slot_reel(DISPLAY_T &, const uint8_t &, const char *);
+ 
+/* class methods */
+
+Display::Display() : u8g2(U8G2_R0, /* sck */ 13, /* sda */ 11, /* cs */ 10, /* dc */ 9, /* res */ 8) {
+    pinMode(9, OUTPUT);
+    digitalWrite(9, 0);
+
+    u8g2.begin();
 }
 
 Display::~Display() {
-  score = 0;
 }
 
-void Display::start_screen() {
-  disp.clear();         
-  disp.setCursor(0,0);
-  disp.print("Insert a coin,");
-  disp.setCursor(0,1);
-  disp.print("to play.");  
+void Display::load_start_screen() { 
+    draw_slots(u8g2);
 }
 
-void Display::update_score(int p) {
-  score += p;
-  disp.clear();         
-  disp.setCursor(0,0);   //Move cursor to character 1 on line 2
-  disp.print("Score=");
-  disp.print(score);
-  delay(750);
+void Display::load_win_screen() {
 }
 
-void Display::win_display() {
-  disp.clear();      
-  disp.setCursor(0,0);   //Set cursor to character 2 on line 0
-  disp.print("Score=99");
-  disp.print(", Game");
-  disp.setCursor(0,1);
-  disp.print("over. You win!");
-}
-
-void Display::lose_display() {
-  disp.clear();
-  disp.backlight();  // Make sure backlight is on         
-  disp.setCursor(0,0);   //Set cursor to character 2 on line 0
-  disp.print("Game Over.");
-  disp.setCursor(0,1);
-  disp.print("You Lose!");
-}
-
-void Display::load_pachinko_screen() {
-  disp.clear();      
-  disp.setCursor(0,0);   //Set cursor to character 2 on line 0
-  disp.print("Flick the");
-  disp.setCursor(0,1);
-  disp.print("joystick!");
+void Display::load_lose_screen() {
 }
 
 void Display::load_slots_screen() {
-  disp.clear();      
-  disp.setCursor(0,0);   //Set cursor to character 2 on line 0
-  disp.print("Pull the");
-  disp.setCursor(0,1);
-  disp.print("lever!");
+}
+
+void Display::set_slot_reel_values(const char *s3, const char *s2, const char *s1) {
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(19,39,s1);
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(61,39,s2);
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(103,39,s3);
+
+    u8g2.sendBuffer();
+}
+
+void Display::load_pachinko_screen() {
 }
 
 void Display::load_roulette_screen() {
-  disp.clear();     
-  disp.setCursor(0,0);   //Set cursor to character 2 on line 0
-  disp.print("Spin the");
-  disp.setCursor(0,1);
-  disp.print("roulette!");
 }
 
-void Display::reset_score() {
-  score = 0;
+
+/* drawing */
+
+void draw_start(DISPLAY_T &u8g2) {
+    u8g2.clearBuffer();
+
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(4,10,"Welcome to");
+    u8g2.setFont(u8g2_font_9x15_tr); u8g2.drawStr(1,30,"Casino Bop-It!");
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(30,60,"Insert coin to play");
+
+    u8g2.sendBuffer();
 }
 
-int Display::get_score() {
-  return score;
+void draw_win(DISPLAY_T &u8g2) {
+    u8g2.clearBuffer();
+
+    u8g2.setFont(u8g2_font_9x15_tr); u8g2.drawStr(28,36,"You win!");
+
+    u8g2.setFont(u8g2_font_5x7_tr); 
+    u8g2.drawStr(12,5,"$");
+    u8g2.drawStr(114,11,"$");
+    u8g2.drawStr(100,50,"$");
+    u8g2.drawStr(6,43,"$");
+
+    u8g2.setFont(u8g2_font_7x13_mr); 
+    u8g2.drawStr(30,18,"$");
+    u8g2.drawStr(109,25,"$");
+    u8g2.drawStr(120,60,"$");
+    u8g2.drawStr(20,53,"$");
+
+    u8g2.sendBuffer();
+}
+
+void draw_lose(DISPLAY_T &u8g2) {
+    u8g2.clearBuffer();
+
+    u8g2.setFont(u8g2_font_9x15_tr); u8g2.drawStr(22,36,"You lose!");
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(10,60,"Better luck next time!");
+
+    u8g2.sendBuffer();
+}
+
+void draw_slots(DISPLAY_T &u8g2) {
+    u8g2.clearBuffer();
+
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(4,8,"Slots: pull the lever!");
+
+    u8g2.drawRFrame(2,12,40,50,0);
+    u8g2.drawRFrame(44,12,40,50,0);
+    u8g2.drawRFrame(86,12,40,50,0);
+
+    u8g2.drawStr(19, 39, "7");
+    u8g2.drawStr(61, 39, "7");
+    u8g2.drawStr(103, 39, "7");
+
+    u8g2.sendBuffer();
 }

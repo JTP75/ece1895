@@ -1,110 +1,49 @@
 #include <bopit.h>
 
 BopIt::BopIt() {
-  Serial.println("BopIt constructor called");
-  disp = new Display();
-  timer1 = 5000;
-  state = awaiting_coin;
+    state = await;
+    disp = Display();
 }
 
 BopIt::~BopIt() {
-  delete disp;
-  state = awaiting_coin;
 }
 
-void BopIt::set_state(BopItState s) {
+void BopIt::set_state(const BopItState &s) {
     state = s;
 }
 
-BopItState BopIt::get_curr_state() const {
+const BopItState &BopIt::get_curr_state() const {
     return state;
 }
 
-BopItState BopIt::action() {
-  if (disp->get_score() == 99) {
-    disp->win_display();
-    state = awaiting_coin;
-    disp->reset_score();
-    return state;
-  }
-  randomSeed(millis());
-  int val = random(1,4);
-  if (val == 1) {
-    return slots;
-    //Serial.println("Pull the lever!");
-    //slots();
-  }
-  else if (val == 2) {
-    return pachinko;
-    //Serial.println("Spin the roullete!");
-    //roulette();
-  }
-  else {
-    return roulette;
-    //Serial.println("Move down on the joystick!");
-    //pachinko();
-  }
+void BopIt::start_slots() {
 }
 
-void BopIt::slots_game() {
-  disp->load_slots_screen();
-  state = slots;
-  timeBegin = millis();
-  while(millis() - timeBegin < timer1) {
-    if (digitalRead(4) == HIGH) {
-      delay(750);
-      Serial.println(state);
-      disp->update_score(1);
-      state = start;
-      return;
+/**
+ * @brief spins slot reels, win/lose is predetermined (like a real slot machine)
+ * 
+ * @param win predetermined win/loss state
+ * 
+ * @note program will hang here for appr 4 seconds
+ */
+void BopIt::spin_slots(bool win) {
+    //if (this->state != slots) 
+    //    return;
+    uint64_t start = millis();
+    
+    while (millis()-start < 5000) {
+        uint8_t i1 = rand() % 10, i2 = rand() % 10, i3 = rand() % 10;
+        char *s1, *s2, *s3;
+        itoa(i1,s1,10);
+        itoa(i2,s2,10);
+        itoa(i3,s3,10);
+        disp.set_slot_reel_values(s3,s2,s1);
+        delay(500);
     }
-    else if (digitalRead(7) == HIGH || digitalRead(8) == HIGH) {
-      disp->reset_score();
-      set_state(game_over);
-      disp->lose_display();
-      delay(1500);
-    }
-  }
 }
 
-void BopIt::roulette_game() {
-  disp->load_roulette_screen();
-  state = roulette;
-  timeBegin = millis();
-  while(millis() - timeBegin < timer1) {
-    if (digitalRead(7) == HIGH) {
-      delay(750);
-      Serial.println(state);
-      disp->update_score(1);
-      state = start;
-      return;
-    }
-    else if (digitalRead(4) == HIGH || digitalRead(8) == HIGH) {
-      disp->reset_score();
-      set_state(game_over);
-      disp->lose_display();
-      delay(1500);
-    }
-  }
+void BopIt::start_roulette() {
 }
 
-void BopIt::pachinko_game() {
-  disp->load_pachinko_screen();
-  state=pachinko;
-  timeBegin = millis();
-  while(millis() - timeBegin < timer1) {
-    if (digitalRead(8) == HIGH) {
-      delay(750);
-      Serial.println(state);
-      disp->update_score(1);
-      state = start;
-      return;
-    }
-    else if (digitalRead(4) == HIGH || digitalRead(7) == HIGH) {
-      disp->reset_score();
-      set_state(game_over);
-      disp->lose_display();
-      delay(1500);
-    }
-  }
+void BopIt::start_pachinko() {
 }
