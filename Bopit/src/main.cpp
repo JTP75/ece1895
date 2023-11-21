@@ -32,7 +32,7 @@ void setup() {
     
     bopit.disp.load_start_screen();
 
-    bopit.spin_slots(false);
+    bopit.spin_slots(true);
 
     /* main loop */
     while (1) {
@@ -41,4 +41,4 @@ void setup() {
 }
 
 void loop() {
-}
+} 
