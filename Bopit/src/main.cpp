@@ -29,10 +29,22 @@ void setup() {
     Serial.print("Remaining memory: "); Serial.print(free_memory()); Serial.println(" / 2048 Bytes");
     
     srand(micros());
-    
-    bopit.disp.load_start_screen();
 
-    bopit.spin_slots(true);
+    bool iswin = false;
+    /*
+    bopit.disp.load_start_screen();
+    delay(1000);
+    bopit.disp.load_slots_screen();
+    delay(1000);
+    bopit.spin_slots(iswin);
+    delay(1000);
+    if (iswin) 
+        bopit.disp.load_win_screen();
+    else
+        bopit.disp.load_lose_screen();
+    */
+
+    bopit.disp.load_roulette_screen();
 
     /* main loop */
     while (1) {

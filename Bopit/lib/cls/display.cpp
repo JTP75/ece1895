@@ -6,8 +6,10 @@
 void draw_start(DISPLAY_T &);
 void draw_win(DISPLAY_T &);
 void draw_lose(DISPLAY_T &);
+
 void draw_slots(DISPLAY_T &);
-void draw_slot_reel(DISPLAY_T &, const uint8_t &, const char *);
+
+void draw_roulette(DISPLAY_T &);
  
 /* class methods */
 
@@ -22,16 +24,19 @@ Display::~Display() {
 }
 
 void Display::load_start_screen() { 
-    draw_slots(u8g2);
+    draw_start(u8g2);
 }
 
 void Display::load_win_screen() {
+    draw_win(u8g2);
 }
 
 void Display::load_lose_screen() {
+    draw_lose(u8g2);
 }
 
 void Display::load_slots_screen() {
+    draw_slots(u8g2);
 }
 
 void Display::set_slot_reel_values(const char *s3, const char *s2, const char *s1) {
@@ -46,10 +51,11 @@ void Display::set_slot_reel_values(const char *s3, const char *s2, const char *s
     u8g2.sendBuffer();
 }
 
-void Display::load_pachinko_screen() {
+void Display::load_roulette_screen() {
+    draw_roulette(u8g2);
 }
 
-void Display::load_roulette_screen() {
+void Display::load_pachinko_screen() {
 }
 
 
@@ -103,9 +109,18 @@ void draw_slots(DISPLAY_T &u8g2) {
     u8g2.drawRFrame(44,12,40,50,0);
     u8g2.drawRFrame(86,12,40,50,0);
 
-    u8g2.drawStr(19, 39, "7");
-    u8g2.drawStr(61, 39, "7");
-    u8g2.drawStr(103, 39, "7");
+    u8g2.drawStr(19, 39, "?");
+    u8g2.drawStr(61, 39, "?");
+    u8g2.drawStr(103, 39, "?");
+
+    u8g2.sendBuffer();
+}
+
+void draw_roulette(DISPLAY_T &u8g2) {
+    u8g2.clearBuffer();
+
+    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(4,8,"Roulette: spin the wheel!");
+    u8g2.drawCircle(64,38,24);
 
     u8g2.sendBuffer();
 }
