@@ -35,9 +35,13 @@ void Display::load_slots_screen() {
 }
 
 void Display::set_slot_reel_values(const char *s3, const char *s2, const char *s1) {
-    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(19,39,s1);
-    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(61,39,s2);
-    u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(103,39,s3);
+    u8g2.setFont(u8g2_font_5x7_tr); 
+    
+    Serial.println("+");
+    
+    u8g2.drawStr(19,39,s1);
+    u8g2.drawStr(61,39,s2);
+    u8g2.drawStr(103,39,s3);
 
     u8g2.sendBuffer();
 }

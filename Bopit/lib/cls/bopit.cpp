@@ -30,16 +30,40 @@ void BopIt::spin_slots(bool win) {
     //if (this->state != slots) 
     //    return;
     uint64_t start = millis();
+
+    char s1[2],s2[2],s3[2];
     
-    while (millis()-start < 5000) {
-        uint8_t i1 = rand() % 10, i2 = rand() % 10, i3 = rand() % 10;
-        char *s1, *s2, *s3;
+    while (millis()-start < 2000) {
+        uint8_t i1 = rand()%9 + 1, i2 = rand()%9 + 1, i3 = rand()%9 + 1;
+
         itoa(i1,s1,10);
         itoa(i2,s2,10);
         itoa(i3,s3,10);
+
         disp.set_slot_reel_values(s3,s2,s1);
-        delay(500);
+        delay(50);
+    } 
+    if (win) {itoa(7,s1,10);}
+    while (millis()-start < 2400) {
+        uint8_t i2 = rand()%9 + 1, i3 = rand()%9 + 1;
+
+        itoa(i2,s2,10);
+        itoa(i3,s3,10);
+
+        disp.set_slot_reel_values(s3,s2,s1);
+        delay(50);
+    } 
+    if (win) {itoa(7,s2,10);}
+    while (millis()-start < 2800) {
+        uint8_t i3 = rand()%9 + 1;
+
+        itoa(i3,s3,10);
+
+        disp.set_slot_reel_values(s3,s2,s1);
+        delay(50);
     }
+    if (win) {itoa(7,s3,10);}
+    disp.set_slot_reel_values(s3,s2,s1);
 }
 
 void BopIt::start_roulette() {
