@@ -67,6 +67,24 @@ void BopIt::spin_slots(bool win) {
 }
 
 void BopIt::start_roulette() {
+    disp.load_roulette_screen();
+}
+
+void BopIt::spin_roulette(bool win) {
+    int angle = 0, incr;
+    if (win) {
+        incr = 40;
+    } else {
+        incr = 32;
+    }
+    int it=0;
+    while (incr>0) {
+        if (it%7==0) incr-=1;
+        disp.set_roulette_wheel_angle(angle);
+        angle += incr;
+        it+=1;
+        delay(10);
+    }
 }
 
 void BopIt::start_pachinko() {

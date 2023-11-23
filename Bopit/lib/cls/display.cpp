@@ -1,4 +1,10 @@
 #include <display.h>
+#include <math.h>
+
+/* roulette geometry */
+#define RADIUS 24
+#define CENTER_X 64
+#define CENTER_Y 38
 
 //static const char* slots_reel[] PROGMEM = {"diamond","heart","club","spade"};
 
@@ -10,6 +16,7 @@ void draw_lose(DISPLAY_T &);
 void draw_slots(DISPLAY_T &);
 
 void draw_roulette(DISPLAY_T &);
+void draw_roulette_angle(DISPLAY_T &, const uint8_t &);
  
 /* class methods */
 
@@ -49,6 +56,15 @@ void Display::set_slot_reel_values(const char *s3, const char *s2, const char *s
     u8g2.drawStr(103,39,s3);
 
     u8g2.sendBuffer();
+}
+
+void Display::set_roulette_wheel_angle(const uint8_t &angle) {
+    u8g2.setDrawColor(0);
+    u8g2.drawBox(0,10,128,54);
+    u8g2.setDrawColor(1);
+    u8g2.drawCircle(CENTER_X,CENTER_Y,RADIUS);
+    u8g2.drawTriangle(32,38, 16,34, 16,42);
+    draw_roulette_angle(u8g2, angle);
 }
 
 void Display::load_roulette_screen() {
@@ -120,7 +136,30 @@ void draw_roulette(DISPLAY_T &u8g2) {
     u8g2.clearBuffer();
 
     u8g2.setFont(u8g2_font_5x7_tr); u8g2.drawStr(4,8,"Roulette: spin the wheel!");
-    u8g2.drawCircle(64,38,24);
+    u8g2.drawTriangle(32,38, 16,34, 16,42);
+    u8g2.drawCircle(CENTER_X,CENTER_Y,RADIUS);
+
+    draw_roulette_angle(u8g2, 0);
+
+    u8g2.sendBuffer();
+}
+
+void draw_roulette_angle(DISPLAY_T &u8g2, const uint8_t &gross_angle) {
+    uint8_t angle = gross_angle%45, x1, x2, y1, y2, x1r, x2r, y1r, y2r;
+    for (int line_angle = 0; line_angle<180; line_angle+=45) {
+        x1 = (uint8_t)round(CENTER_X - RADIUS*cos(-DEG_TO_RAD*(angle+line_angle)));
+        x2 = (uint8_t)round(CENTER_X + RADIUS*cos(-DEG_TO_RAD*(angle+line_angle)));
+        y1 = (uint8_t)round(CENTER_Y + RADIUS*sin(-DEG_TO_RAD*(angle+line_angle)));
+        y2 = (uint8_t)round(CENTER_Y - RADIUS*sin(-DEG_TO_RAD*(angle+line_angle)));
+
+        x1r = (uint8_t)round(CENTER_X - RADIUS*cos(-DEG_TO_RAD*(angle+line_angle+22.5)));
+        x2r = (uint8_t)round(CENTER_X + RADIUS*cos(-DEG_TO_RAD*(angle+line_angle+22.5)));
+        y1r = (uint8_t)round(CENTER_Y + RADIUS*sin(-DEG_TO_RAD*(angle+line_angle+22.5)));
+        y2r = (uint8_t)round(CENTER_Y - RADIUS*sin(-DEG_TO_RAD*(angle+line_angle+22.5)));
+
+        u8g2.drawTriangle(CENTER_X,CENTER_Y, x1,y1, x1r, y1r);
+        u8g2.drawTriangle(CENTER_X,CENTER_Y, x2,y2, x2r, y2r);
+    }
 
     u8g2.sendBuffer();
 }

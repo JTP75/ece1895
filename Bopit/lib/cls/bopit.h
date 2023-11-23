@@ -22,6 +22,8 @@ class BopIt {
     void spin_slots(bool win);
 
     void start_roulette();
+    void spin_roulette(bool win);
+
     void start_pachinko();
 
     void set_state(const BopItState &s);
