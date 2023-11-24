@@ -19,18 +19,19 @@ const int roulette_pin = 7;
 const int joystick_y_pin = 8;
 
 void setup() {
-    //Serial.begin(9600);
-    //while(!Serial);
+    Serial.begin(9600);
+    while(!Serial);
     //Serial.println("Serial started in 9600. Beginning setup...");
 
     BopIt bopit;
 
     //Serial.println("Setup complete!");
-    //Serial.print("Remaining memory: "); Serial.print(free_memory()); Serial.println(" / 2048 Bytes");
+    Serial.println(free_memory());
     
-    srand(micros());
 
-    bool iswin = true;
+    randomSeed(analogRead(A0));
+
+    bool iswin = (bool)random()%2;
     
     
     bopit.disp.load_start_screen();

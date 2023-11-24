@@ -34,7 +34,7 @@ void BopIt::spin_slots(bool win) {
     char s1[2],s2[2],s3[2];
     
     while (millis()-start < 2000) {
-        uint8_t i1 = rand()%9 + 1, i2 = rand()%9 + 1, i3 = rand()%9 + 1;
+        uint8_t i1 = random(9)+1, i2 = random(9)+1, i3 = random(9)+1;
 
         itoa(i1,s1,10);
         itoa(i2,s2,10);
@@ -45,7 +45,7 @@ void BopIt::spin_slots(bool win) {
     } 
     if (win) {itoa(7,s1,10);}
     while (millis()-start < 2400) {
-        uint8_t i2 = rand()%9 + 1, i3 = rand()%9 + 1;
+        uint8_t i2 = random(9)+1, i3 = random(9)+1;
 
         itoa(i2,s2,10);
         itoa(i3,s3,10);
@@ -55,7 +55,7 @@ void BopIt::spin_slots(bool win) {
     } 
     if (win) {itoa(7,s2,10);}
     while (millis()-start < 2800) {
-        uint8_t i3 = rand()%9 + 1;
+        uint8_t i3 = random(9)+1;
 
         itoa(i3,s3,10);
 
