@@ -19,27 +19,39 @@ const int roulette_pin = 7;
 const int joystick_y_pin = 8;
 
 void setup() {
-    Serial.begin(9600);
-    while(!Serial);
+    //Serial.begin(9600);
+    //while(!Serial);
     //Serial.println("Serial started in 9600. Beginning setup...");
 
     BopIt bopit;
 
     //Serial.println("Setup complete!");
-    Serial.println(free_memory());
+    //Serial.println(free_memory());
     
 
     randomSeed(analogRead(A0));
 
     bool iswin = (bool)random()%2;
-    
+    uint8_t game = 2;
     
     bopit.disp.load_start_screen();
     delay(1000);
-    bopit.disp.load_slots_screen();
-    delay(1000);
-    bopit.spin_slots(iswin);
-    delay(1000);
+    if (game==1) {
+        bopit.disp.load_slots_screen();
+        delay(1000);
+        bopit.spin_slots(iswin);
+        delay(1000);
+    } else if (game==2) {
+        bopit.disp.load_roulette_screen();
+        delay(1000);
+        bopit.spin_roulette(iswin);
+        delay(1000);
+    } else {
+        bopit.disp.load_slots_screen();
+        delay(1000);
+        bopit.spin_slots(iswin);
+        delay(1000);
+    }
     if (iswin) 
         bopit.disp.load_win_screen();
     else
@@ -51,6 +63,31 @@ void setup() {
 
     /* main loop */
     while (1) {
+        bool iswin = (bool)(random()%2);
+        int game = random()%2 + 1;
+        
+        bopit.disp.load_start_screen();
+        delay(1000);
+        if (game==1) {
+            bopit.disp.load_slots_screen();
+            delay(1000);
+            bopit.spin_slots(iswin);
+            delay(1000);
+        } else if (game==2) {
+            bopit.disp.load_roulette_screen();
+            delay(1000);
+            bopit.spin_roulette(iswin);
+            delay(1000);
+        } else {
+            bopit.disp.load_slots_screen();
+            delay(1000);
+            bopit.spin_slots(iswin);
+            delay(1000);
+        }
+        if (iswin) 
+            bopit.disp.load_win_screen();
+        else
+            bopit.disp.load_lose_screen();
         delay(1000);
     }
 }
