@@ -36,9 +36,9 @@ void setup() {
     
     bopit.disp.load_start_screen();
     delay(1000);
-    bopit.disp.load_roulette_screen();
+    bopit.disp.load_slots_screen();
     delay(1000);
-    bopit.spin_roulette(iswin);
+    bopit.spin_slots(iswin);
     delay(1000);
     if (iswin) 
         bopit.disp.load_win_screen();

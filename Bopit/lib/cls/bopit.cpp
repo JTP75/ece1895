@@ -33,7 +33,7 @@ void BopIt::spin_slots(bool win) {
 
     char s1[2],s2[2],s3[2];
     
-    while (millis()-start < 2000) {
+    while (millis()-start < 2000) {     // spin 1,2,3
         uint8_t i1 = random(9)+1, i2 = random(9)+1, i3 = random(9)+1;
 
         itoa(i1,s1,10);
@@ -44,7 +44,7 @@ void BopIt::spin_slots(bool win) {
         delay(50);
     } 
     if (win) {itoa(7,s1,10);}
-    while (millis()-start < 2400) {
+    while (millis()-start < 2800) {     // spin 2,3
         uint8_t i2 = random(9)+1, i3 = random(9)+1;
 
         itoa(i2,s2,10);
@@ -54,7 +54,7 @@ void BopIt::spin_slots(bool win) {
         delay(50);
     } 
     if (win) {itoa(7,s2,10);}
-    while (millis()-start < 2800) {
+    while (millis()-start < 3600) {     // spin 3
         uint8_t i3 = random(9)+1;
 
         itoa(i3,s3,10);
@@ -71,14 +71,20 @@ void BopIt::start_roulette() {
 }
 
 void BopIt::spin_roulette(bool win) {
-    int angle = 0, incr;
+    int angle = 0, incr = 0, incr_max, it;
     if (win) {
-        incr = 40;
+        incr_max = 29;
     } else {
-        incr = 32;
+        incr_max = 28;
     }
-    int it=0;
-    while (incr>0) {
+    while (incr<incr_max) {     // accel loop
+        incr+=1;
+        disp.set_roulette_wheel_angle(angle);
+        angle += incr;
+        delay(10);
+    }
+    it=0;
+    while (incr>0) {            // decel loop
         if (it%7==0) incr-=1;
         disp.set_roulette_wheel_angle(angle);
         angle += incr;
