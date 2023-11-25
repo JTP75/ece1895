@@ -14,12 +14,17 @@ class Display {
         Display();
         ~Display();
         void load_start_screen();
+
         void load_win_screen();
         void load_lose_screen();
+
         void load_slots_screen();
         void set_slot_reel_values(const char *s3, const char *s2, const char *s1);
+        
         void load_roulette_screen();
         void set_roulette_wheel_angle(const uint8_t &angle);
+
         void load_pachinko_screen();
 };
+
 #endif

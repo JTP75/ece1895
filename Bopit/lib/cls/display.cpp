@@ -17,6 +17,8 @@ void draw_slots(DISPLAY_T &);
 
 void draw_roulette(DISPLAY_T &);
 void draw_roulette_angle(DISPLAY_T &, const uint8_t &);
+
+void draw_pachinko(DISPLAY_T &);
  
 /* class methods */
 
@@ -48,9 +50,7 @@ void Display::load_slots_screen() {
 
 void Display::set_slot_reel_values(const char *s3, const char *s2, const char *s1) {
     u8g2.setFont(u8g2_font_5x7_tr); 
-    
-    Serial.println("+");
-    
+        
     u8g2.drawStr(19,39,s1);
     u8g2.drawStr(61,39,s2);
     u8g2.drawStr(103,39,s3);
@@ -72,6 +72,7 @@ void Display::load_roulette_screen() {
 }
 
 void Display::load_pachinko_screen() {
+    draw_pachinko(u8g2);
 }
 
 
@@ -160,6 +161,32 @@ void draw_roulette_angle(DISPLAY_T &u8g2, const uint8_t &gross_angle) {
         u8g2.drawTriangle(CENTER_X,CENTER_Y, x1,y1, x1r, y1r);
         u8g2.drawTriangle(CENTER_X,CENTER_Y, x2,y2, x2r, y2r);
     }
+
+    u8g2.sendBuffer();
+}
+
+void draw_pachinko(DISPLAY_T &u8g2) {
+    u8g2.clearBuffer();
+
+    u8g2.setFont(u8g2_font_5x7_tr); 
+    u8g2.drawStr(4,8,"Pachinko: drop the ball!");
+
+    uint8_t row,col;
+    
+    for (row=20; row<50; row+=8) {
+        for (col=8; col<=120; col+=8) {
+            if ((row-4)%16) {
+                u8g2.drawPixel(col,row);
+            } else {
+                u8g2.drawPixel(col+4,row);
+            }
+        }
+    }
+
+    u8g2.drawStr(2,60,"   |     |     |     |   ");
+    u8g2.drawStr(2,61," L |  W  |  L  |  W  | L ");
+    u8g2.drawStr(2,63,"   |     |     |     |   ");
+    u8g2.drawHLine(1,63,128);
 
     u8g2.sendBuffer();
 }
