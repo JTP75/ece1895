@@ -19,6 +19,7 @@ void draw_roulette(DISPLAY_T &);
 void draw_roulette_angle(DISPLAY_T &, const uint8_t &);
 
 void draw_pachinko(DISPLAY_T &);
+void draw_pachinko_ball(DISPLAY_T &u8g2, const uint8_t &x, const uint8_t &y);
  
 /* class methods */
 
@@ -73,6 +74,7 @@ void Display::load_roulette_screen() {
 
 void Display::load_pachinko_screen() {
     draw_pachinko(u8g2);
+    draw_pachinko_ball(u8g2,64,15);
 }
 
 
@@ -174,11 +176,23 @@ void draw_pachinko(DISPLAY_T &u8g2) {
     uint8_t row,col;
     
     for (row=20; row<50; row+=8) {
-        for (col=8; col<=120; col+=8) {
-            if ((row-4)%16) {
-                u8g2.drawPixel(col,row);
-            } else {
-                u8g2.drawPixel(col+4,row);
+        if (row==20 || row==28) {
+            for (col=16; col<=112; col+=8) {
+                if ((row-4)%16) {
+                    u8g2.drawPixel(col,row);
+                } else {
+                    if (col>=112) continue;
+                    u8g2.drawPixel(col+4,row);
+                }
+            }
+        } else {
+            for (col=8; col<=120; col+=8) {
+                if ((row-4)%16) {
+                    u8g2.drawPixel(col,row); 
+                } else {
+                    if (col>=120) continue;
+                    u8g2.drawPixel(col+4,row);
+                }
             }
         }
     }
@@ -188,5 +202,13 @@ void draw_pachinko(DISPLAY_T &u8g2) {
     u8g2.drawStr(2,63,"   |     |     |     |   ");
     u8g2.drawHLine(1,63,128);
 
+    u8g2.drawVLine(1,16,64);
+    u8g2.drawVLine(127,16,64);
+
+    u8g2.sendBuffer();
+}
+
+void draw_pachinko_ball(DISPLAY_T &u8g2, const uint8_t &x, const uint8_t &y) {
+    u8g2.drawDisc(x,y,2);
     u8g2.sendBuffer();
 }
