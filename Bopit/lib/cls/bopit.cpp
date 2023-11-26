@@ -1,8 +1,11 @@
 #include <bopit.h>
+#include <math.h>
 
 BopIt::BopIt() {
     state = await;
     disp = Display();
+    pachinko_ball_x = 60;
+    pachinko_ball_y = 15;
 }
 
 BopIt::~BopIt() {
@@ -17,6 +20,7 @@ const BopItState &BopIt::get_curr_state() const {
 }
 
 void BopIt::start_slots() {
+    disp.load_slots_screen();
 }
 
 /**
@@ -94,4 +98,50 @@ void BopIt::spin_roulette(bool win) {
 }
 
 void BopIt::start_pachinko() {
+    pachinko_ball_x = 60;
+    pachinko_ball_y = 15;
+    disp.load_pachinko_screen();
+}
+
+void BopIt::move_pachinko_ball(bool left) {
+    if (left) {
+        if (pachinko_ball_x<=24) return;
+        set_pball_pos(pachinko_ball_x-8,pachinko_ball_y);
+    } else {
+        if (pachinko_ball_x>=104) return;
+        set_pball_pos(pachinko_ball_x+8,pachinko_ball_y);
+    }
+}
+
+void BopIt::set_pball_pos(const uint8_t &x, const uint8_t &y) {
+    disp.move_pachinko_ball(pachinko_ball_x,pachinko_ball_y,x,y);
+    pachinko_ball_x = x;
+    pachinko_ball_y = y;
+}
+
+void BopIt::drop_pachinko_ball(bool win) {
+    uint8_t target;
+    if (win) {
+        if (pachinko_ball_x<64)
+            target = 32;
+        else
+            target = 96;
+    } else {
+        if (abs(pachinko_ball_x-64) < abs(pachinko_ball_x-0) && abs(pachinko_ball_x-64) < abs(pachinko_ball_x-128))
+            target = 64;
+        else if (abs(pachinko_ball_x-0) < abs(pachinko_ball_x-64) && abs(pachinko_ball_x-0) < abs(pachinko_ball_x-128))
+            target = 12;
+        else
+            target = 116;
+    }
+
+    for (uint8_t i=0; i<4; i++) {
+        if (pachinko_ball_x<target) {
+            set_pball_pos(pachinko_ball_x+4,pachinko_ball_y+8);
+        } else {
+            set_pball_pos(pachinko_ball_x-4,pachinko_ball_y+8);
+        }
+        delay(400);
+    }
+    set_pball_pos(pachinko_ball_x,pachinko_ball_y+12);
 }

@@ -13,6 +13,9 @@ class Display {
     public:
         Display();
         ~Display();
+
+        void load_init_screen();
+
         void load_start_screen();
 
         void load_win_screen();
@@ -25,6 +28,7 @@ class Display {
         void set_roulette_wheel_angle(const uint8_t &angle);
 
         void load_pachinko_screen();
+        void move_pachinko_ball(const uint8_t &x0, const uint8_t &y0, const uint8_t &x1, const uint8_t &y1);
 };
 
 #endif

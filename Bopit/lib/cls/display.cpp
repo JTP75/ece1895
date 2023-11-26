@@ -33,6 +33,13 @@ Display::Display() : u8g2(U8G2_R0, /* sck */ 13, /* sda */ 11, /* cs */ 10, /* d
 Display::~Display() {
 }
 
+void Display::load_init_screen() {
+    u8g2.clearBuffer();
+    u8g2.setFont(u8g2_font_fur35_tr);
+    u8g2.drawStr(10,48,"$ $ $");
+    u8g2.sendBuffer();
+}
+
 void Display::load_start_screen() { 
     draw_start(u8g2);
 }
@@ -74,7 +81,15 @@ void Display::load_roulette_screen() {
 
 void Display::load_pachinko_screen() {
     draw_pachinko(u8g2);
-    draw_pachinko_ball(u8g2,64,15);
+}
+
+void Display::move_pachinko_ball(const uint8_t &x0, const uint8_t &y0, const uint8_t &x1, const uint8_t &y1) {
+    u8g2.setDrawColor(0);
+    draw_pachinko_ball(u8g2,x0,y0);
+    u8g2.setDrawColor(1);
+    draw_pachinko_ball(u8g2,x1,y1);
+
+    u8g2.sendBuffer();
 }
 
 
@@ -205,10 +220,11 @@ void draw_pachinko(DISPLAY_T &u8g2) {
     u8g2.drawVLine(1,16,64);
     u8g2.drawVLine(127,16,64);
 
+    draw_pachinko_ball(u8g2,60,15);
+
     u8g2.sendBuffer();
 }
 
 void draw_pachinko_ball(DISPLAY_T &u8g2, const uint8_t &x, const uint8_t &y) {
     u8g2.drawDisc(x,y,2);
-    u8g2.sendBuffer();
 }

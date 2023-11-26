@@ -30,30 +30,30 @@ void setup() {
     
     randomSeed(analogRead(A0));
 
-    bopit.disp.load_pachinko_screen();
-    //bopit.spin_roulette(iswin);
+    bopit.disp.load_init_screen();
+    delay(2000);
 
     /* main loop */
-    while (0) {
+    while (1) {
         bool iswin = (bool)(random()%2);
-        int game = random()%2 + 1;
+        int game = 3;//random()%3 + 1;
         
         bopit.disp.load_start_screen();
         delay(1000);
         if (game==1) {
-            bopit.disp.load_slots_screen();
+            bopit.start_slots();
             delay(1000);
             bopit.spin_slots(iswin);
             delay(1000);
         } else if (game==2) {
-            bopit.disp.load_roulette_screen();
+            bopit.start_roulette();
             delay(1000);
             bopit.spin_roulette(iswin);
             delay(1000);
         } else {
-            bopit.disp.load_slots_screen();
+            bopit.start_pachinko();
             delay(1000);
-            bopit.spin_slots(iswin);
+            bopit.drop_pachinko_ball(iswin);
             delay(1000);
         }
         if (iswin) 
