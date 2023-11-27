@@ -1,0 +1,300 @@
+*************************************************************
+FileName = Bopit.GBR
+AutoAperture = True
+*************************************************************
+Generating : Top Component Center
+      File : Bopit.GM16
+
+    Adding Layer      : Top Component Center
+
+
+Used DCodes :
+    D41
+*************************************************************
+
+*************************************************************
+Generating : Top Courtyard
+      File : Bopit.GM15
+
+    Adding Layer      : Top Courtyard
+
+
+Used DCodes :
+    D11
+    D41
+    D42
+*************************************************************
+
+*************************************************************
+Generating : Top 3D Body
+      File : Bopit.GM13
+
+    Adding Layer      : Top 3D Body
+
+
+Used DCodes :
+    D11
+    D41
+*************************************************************
+
+*************************************************************
+Generating : Top Component Outline
+      File : Bopit.GM11
+
+    Adding Layer      : Top Component Outline
+
+
+Used DCodes :
+    D41
+*************************************************************
+
+*************************************************************
+Generating : Top Assembly
+      File : Bopit.GM5
+
+    Adding Layer      : Top Assembly
+
+
+Used DCodes :
+    D11
+*************************************************************
+
+*************************************************************
+Generating : Top Designator
+      File : Bopit.GM3
+
+    Adding Layer      : Top Designator
+
+
+Used DCodes :
+    D40
+*************************************************************
+
+*************************************************************
+Generating : Keep-Out Layer
+      File : Bopit.GKO
+
+    Adding Layer      : Keep-Out Layer
+
+
+Used DCodes :
+    D13
+*************************************************************
+
+*************************************************************
+Generating : Top Paste
+      File : Bopit.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Bottom Solder
+      File : Bopit.GBS
+
+    Adding Layer      : Bottom Solder
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+*************************************************************
+
+*************************************************************
+Generating : Top Solder
+      File : Bopit.GTS
+
+    Adding Layer      : Top Solder
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+*************************************************************
+
+*************************************************************
+Generating : Top Overlay
+      File : Bopit.GTO
+
+    Adding Layer      : Top Overlay
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D13
+*************************************************************
+
+*************************************************************
+Generating : Top Pad Master
+      File : Bopit.GPT
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D16
+    D17
+    D18
+    D19
+    D23
+    D24
+    D25
+    D27
+    D28
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+*************************************************************
+
+*************************************************************
+Generating : Bottom Pad Master
+      File : Bopit.GPB
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D16
+    D17
+    D18
+    D19
+    D23
+    D24
+    D25
+    D27
+    D28
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+*************************************************************
+
+*************************************************************
+Generating : Bottom Layer
+      File : Bopit.GBL
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D16
+    D17
+    D18
+    D19
+    D23
+    D24
+    D25
+    D27
+    D28
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+*************************************************************
+
+*************************************************************
+Generating : Top Layer
+      File : Bopit.GTL
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D16
+    D17
+    D18
+    D19
+    D23
+    D24
+    D25
+    D27
+    D28
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+*************************************************************
+
+*************************************************************
+Generating : Profile
+      File : Bopit.GM
+
+
+Used DCodes :
+    D43
+*************************************************************
+
