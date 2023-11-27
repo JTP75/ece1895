@@ -19,6 +19,9 @@ const int roulette_pin = 7;
 const int joystick_y_pin = 8;
 
 void setup() {
+
+SETUP:
+
     //Serial.begin(9600);
     //while(!Serial);
     //Serial.println("Serial started in 9600. Beginning setup...");
@@ -29,39 +32,26 @@ void setup() {
     //Serial.println(free_memory());
     
     randomSeed(analogRead(A0));
-
-    bopit.disp.load_init_screen();
+    
     delay(2000);
+    uint8_t game;
 
-    /* main loop */
-    while (1) {
-        bool iswin = (bool)(random()%2);
-        int game = 3;//random()%3 + 1;
-        
-        bopit.disp.load_start_screen();
-        delay(1000);
-        if (game==1) {
-            bopit.start_slots();
-            delay(1000);
-            bopit.spin_slots(iswin);
-            delay(1000);
-        } else if (game==2) {
-            bopit.start_roulette();
-            delay(1000);
-            bopit.spin_roulette(iswin);
-            delay(1000);
-        } else {
-            bopit.start_pachinko();
-            delay(1000);
-            bopit.drop_pachinko_ball(iswin);
-            delay(1000);
-        }
-        if (iswin) 
-            bopit.disp.load_win_screen();
-        else
-            bopit.disp.load_lose_screen();
-        delay(1000);
-    }
+MAIN_LOOP:
+
+    bopit.await_coin();
+    delay(500);
+
+    game = 1+random()%3;
+    if (game==1)
+        bopit.start_slots();
+    else if (game==2)
+        bopit.start_roulette();
+    else if (game==3)
+        bopit.start_pachinko();
+
+    bopit.end_game();
+
+    goto MAIN_LOOP;
 }
 
 void loop() {

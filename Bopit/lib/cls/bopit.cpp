@@ -1,14 +1,26 @@
 #include <bopit.h>
 #include <math.h>
 
+#define TIME_LIMIT 10000
+
 BopIt::BopIt() {
     state = await;
     disp = Display();
     pachinko_ball_x = 60;
     pachinko_ball_y = 15;
+
+    pinMode(7,INPUT);
+    disp.load_init_screen();
 }
 
 BopIt::~BopIt() {
+}
+
+void BopIt::await_coin() {
+    state = await;
+    disp.load_start_screen();
+    while(digitalRead(7)==LOW);
+    delay(750);
 }
 
 void BopIt::set_state(const BopItState &s) {
@@ -19,8 +31,30 @@ const BopItState &BopIt::get_curr_state() const {
     return state;
 }
 
+void BopIt::end_game() {
+    delay(1000);
+    if (state==win) {
+        disp.load_win_screen();
+    } else if (state==lose) {
+        disp.load_lose_screen();
+    }
+    delay(1500);
+}
+
 void BopIt::start_slots() {
+    state = slots;
     disp.load_slots_screen();
+    t0=millis();
+    bool iswin;
+    while (millis()-t0<TIME_LIMIT) {
+        if (digitalRead(7)==HIGH) {
+            iswin = (bool)(random()%2);
+            spin_slots(iswin);
+            if (iswin) state = win; else state = lose;
+            return;
+        }
+    }
+    state = lose;
 }
 
 /**
@@ -31,8 +65,8 @@ void BopIt::start_slots() {
  * @note program will hang here for appr 4 seconds
  */
 void BopIt::spin_slots(bool win) {
-    //if (this->state != slots) 
-    //    return;
+    if (this->state != slots) 
+        return;
     uint64_t start = millis();
 
     char s1[2],s2[2],s3[2];
@@ -67,14 +101,29 @@ void BopIt::spin_slots(bool win) {
         delay(50);
     }
     if (win) {itoa(7,s3,10);}
+    else if (s1==s2) {itoa(7,s3,10);}
     disp.set_slot_reel_values(s3,s2,s1);
 }
 
 void BopIt::start_roulette() {
+    state = roulette;
     disp.load_roulette_screen();
+    t0=millis();
+    bool iswin;
+    while (millis()-t0<TIME_LIMIT) {
+        if (digitalRead(7)==HIGH) {
+            iswin = (bool)(random()%2);
+            spin_roulette(iswin);
+            if (iswin) state = win; else state = lose;
+            return;
+        }
+    }
+    state = lose;
 }
 
 void BopIt::spin_roulette(bool win) {
+    if (this->state != roulette) 
+        return;
     int angle = 0, incr = 0, incr_max, it;
     if (win) {
         incr_max = 29;
@@ -98,12 +147,27 @@ void BopIt::spin_roulette(bool win) {
 }
 
 void BopIt::start_pachinko() {
+    state = pachinko;
     pachinko_ball_x = 60;
     pachinko_ball_y = 15;
     disp.load_pachinko_screen();
+    t0=millis();
+    bool iswin;
+    while (millis()-t0<TIME_LIMIT) {
+        if (digitalRead(7)==HIGH) {
+            iswin = (bool)(random()%2);
+            delay(750);
+            drop_pachinko_ball(iswin);
+            if (iswin) state = win; else state = lose;
+            return;
+        }
+    }
+    state = lose;
 }
 
 void BopIt::move_pachinko_ball(bool left) {
+    if (this->state != pachinko) 
+        return;
     if (left) {
         if (pachinko_ball_x<=24) return;
         set_pball_pos(pachinko_ball_x-8,pachinko_ball_y);
@@ -114,12 +178,16 @@ void BopIt::move_pachinko_ball(bool left) {
 }
 
 void BopIt::set_pball_pos(const uint8_t &x, const uint8_t &y) {
+    if (this->state != pachinko) 
+        return;
     disp.move_pachinko_ball(pachinko_ball_x,pachinko_ball_y,x,y);
     pachinko_ball_x = x;
     pachinko_ball_y = y;
 }
 
 void BopIt::drop_pachinko_ball(bool win) {
+    if (this->state != pachinko) 
+        return;
     uint8_t target;
     if (win) {
         if (pachinko_ball_x<64)
