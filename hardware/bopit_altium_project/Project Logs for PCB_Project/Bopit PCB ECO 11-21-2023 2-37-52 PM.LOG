@@ -1,0 +1,76 @@
+Removed Pin From Net: NetName=NetAtmega328P-Main_10 Pin=Crystal Clock-1
+Removed Pin From Net: NetName=NetAtmega328P-Main_9 Pin=Crystal Clock-2
+Removed Pin From Net: NetName=Net7805 VR_1 Pin=Power Button-1
+Removed Pin From Net: NetName=Net9V_2 Pin=Power Button-2
+Removed Member From Class: ClassName=bopit Member=Power Button
+Change Component Footprint: Designator=lever Old Footprint=61900211121 New Footprint=61900211121
+Change Component Footprint: Designator=AVR H1 Old Footprint=61900311121 New Footprint=61900311121
+Change Component Footprint: Designator=AVR H2 Old Footprint=61900311121 New Footprint=61900311121
+Change Component Footprint: Designator=coin slot Old Footprint=61900311121 New Footprint=61900311121
+Change Component Footprint: Designator=Wheel Old Footprint=61900311121 New Footprint=61900311121
+Change Component Footprint: Designator=joystick Old Footprint=FP-22-04-1051-MFG New Footprint=FP-22-04-1051-MFG
+Change Component Footprint: Designator=R1 Old Footprint=FP-MRS25-MFG New Footprint=FP-MRS25-MFG
+Change Component Designator: OldDesignator=Atmega328P NewDesignator=Atmega328P-Main
+Change Component Designator: OldDesignator=C1 NewDesignator=C1: 10u
+Change Component Designator: OldDesignator=C2 NewDesignator=C2: 22pf
+Change Component Designator: OldDesignator=C3 NewDesignator=C3: 22pf
+Change Component Designator: OldDesignator=R1 NewDesignator=R1: 10k
+Added Component: Designator=Oscillator(ABRA-AB15T-2_V)
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Manufacturer URL"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.abracon.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.abracon.com/Resonators/AB15T.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3Description"; Value = "Package Specification"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3URL"; Value = "http://www.abracon.com/Resonators/AB15T.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DatasheetVersion"; Value = "Jun-10"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ESR"; Value = "40 KOhm Max."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Frequency"; Value = "32.768 kHz"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Load Capacitance CL"; Value = "12.5 pF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Abracon"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "Through Hole"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "2-Pin THD, Body 5 x 1.4 mm, Pin Spacing 0.45 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Packing"; Value = "Bulk"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = "AB15T-32.768KHZ"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS"; Value = "TRUE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Shunt Capacitance C0"; Value = "1 pF Typ."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Temperature Range"; Value = "-20 to 70 degC"; VariantName = "[No Variations]"
+Added Component: Designator=Power(61900211121)
+Add component (AddParameter): Name = "Color"; Value = "Beige"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = "Male Pin"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Gender"; Value = "Male"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Material"; Value = "Copper"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Mating Length"; Value = "7.493mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Plating"; Value = "Tin"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Resistance"; Value = "20mO"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "3A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Fastening Type"; Value = "Friction"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Flammability Rating"; Value = "UL94 V-0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = "Male"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "11.75mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Housing Material"; Value = "Nylon"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Insulation Resistance"; Value = "1GO"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Lead Pitch"; Value = "2.54mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Length"; Value = "5.08mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = "105°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = "-40°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mount"; Value = "Through Hole"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "NexarPartId"; Value = "18818218"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Contacts"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Positions"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Rows"; Value = "1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Operating Supply Voltage"; Value = "250V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Orientation"; Value = "Vertical"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Packaging"; Value = "Bulk"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pitch"; Value = "2.54mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "REACH SVHC"; Value = "Unknown"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS"; Value = "Compliant"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Termination"; Value = "Through Hole"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage Rating"; Value = "250V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Width"; Value = "5.12mm"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetAtmega328P-Main_10 Pin=Oscillator-1
+Added Pin To Net: NetName=NetAtmega328P-Main_9 Pin=Oscillator-2
+Added Pin To Net: NetName=Net7805 VR_1 Pin=Power-1
+Added Pin To Net: NetName=Net9V_2 Pin=Power-2
+Added Member To Class: ClassName=bopit Member=Component Oscillator AB15T-32.768KHZ
+Added Member To Class: ClassName=bopit Member=Component Power 61900211121

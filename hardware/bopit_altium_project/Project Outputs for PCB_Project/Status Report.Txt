@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [PCB_Project.PrjPcb]
+   Generated File[Bopit.TXT]
+   Generated File[Bopit.LDP]
+   Generated File[Bopit.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 3:22:04 PM On 11/21/2023
