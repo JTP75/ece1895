@@ -1,6 +1,16 @@
-# ECE1895 - Bop It Project
+# Bop-It! Project
+
+## Version History
+
+* 1.0.0-beta
+    * Initial Release
+
+## File Structure
+### Enclosure folder
+- Contains fusion & stl files for enclosure design
 ### Hardware folder
-- contains altium, spice, and other hardware related files
+- Altium base folder
+- Contains altium project files
 ### Bopit folder
-- PlatformIO format
-- contains C++ source files for microcontroller
+- PlatformIO base folder
+- Contains C++ source files for microcontroller
