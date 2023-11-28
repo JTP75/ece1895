@@ -23,9 +23,9 @@ void draw_pachinko_ball(DISPLAY_T &u8g2, const uint8_t &x, const uint8_t &y);
  
 /* class methods */
 
-Display::Display() : u8g2(U8G2_R0, /* sck */ 13, /* sda */ 11, /* cs */ 10, /* dc */ 9, /* res */ 8) {
-    pinMode(9, OUTPUT);
-    digitalWrite(9, 0);
+Display::Display() : u8g2(U8G2_R0, /* sck */ 0, /* sda */ 1, /* cs */ 2, /* dc */ A4, /* res */ 13) {
+    pinMode(A4, OUTPUT);
+    digitalWrite(A4, 0);
 
     u8g2.begin();
 }

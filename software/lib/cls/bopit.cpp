@@ -3,13 +3,24 @@
 
 #define TIME_LIMIT 10000
 
+#define JX_PIN A2
+#define JY_PIN A3
+
+#define LEVER_PIN 11
+#define COIN_PIN A1
+#define WHEEL_PIN 4
+
 BopIt::BopIt() {
     state = await;
     disp = Display();
     pachinko_ball_x = 60;
     pachinko_ball_y = 15;
 
-    pinMode(7,INPUT);
+    pinMode(COIN_PIN,INPUT);
+    pinMode(JX_PIN,INPUT);
+    pinMode(JY_PIN,INPUT);
+    pinMode(WHEEL_PIN, INPUT);
+
     disp.load_init_screen();
 }
 
@@ -19,8 +30,8 @@ BopIt::~BopIt() {
 void BopIt::await_coin() {
     state = await;
     disp.load_start_screen();
-    while(digitalRead(7)==LOW);
-    delay(750);
+    while(digitalRead(COIN_PIN)==LOW);
+    delay(250);
 }
 
 void BopIt::set_state(const BopItState &s) {
@@ -47,7 +58,7 @@ void BopIt::start_slots() {
     t0=millis();
     bool iswin;
     while (millis()-t0<TIME_LIMIT) {
-        if (digitalRead(7)==HIGH) {
+        if (digitalRead(LEVER_PIN)==HIGH) {
             iswin = (bool)(random()%2);
             spin_slots(iswin);
             if (iswin) state = win; else state = lose;
@@ -111,7 +122,7 @@ void BopIt::start_roulette() {
     t0=millis();
     bool iswin;
     while (millis()-t0<TIME_LIMIT) {
-        if (digitalRead(7)==HIGH) {
+        if (digitalRead(WHEEL_PIN)==LOW) {
             iswin = (bool)(random()%2);
             spin_roulette(iswin);
             if (iswin) state = win; else state = lose;
@@ -154,7 +165,14 @@ void BopIt::start_pachinko() {
     t0=millis();
     bool iswin;
     while (millis()-t0<TIME_LIMIT) {
-        if (digitalRead(7)==HIGH) {
+        if (analogRead(JX_PIN)<256) {
+            move_pachinko_ball(true);
+            delay(200);
+        } else if (analogRead(JX_PIN)>768) {
+            move_pachinko_ball(false);
+            delay(200);
+        }
+        if (analogRead(JY_PIN)>768) {
             iswin = (bool)(random()%2);
             delay(750);
             drop_pachinko_ball(iswin);
