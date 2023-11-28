@@ -20,7 +20,7 @@ void BopIt::await_coin() {
     state = await;
     disp.load_start_screen();
     while(digitalRead(7)==LOW);
-    delay(750);
+    delay(250);
 }
 
 void BopIt::set_state(const BopItState &s) {
