@@ -20,16 +20,7 @@ const int joystick_y_pin = 8;
 
 void setup() {
 
-SETUP:
-
-    //Serial.begin(9600);
-    //while(!Serial);
-    //Serial.println("Serial started in 9600. Beginning setup...");
-
     BopIt bopit;
-
-    //Serial.println("Setup complete!");
-    //Serial.println(free_memory());
     
     randomSeed(analogRead(A0));
     
