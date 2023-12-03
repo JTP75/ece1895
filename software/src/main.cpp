@@ -25,20 +25,22 @@ void setup() {
     randomSeed(analogRead(A0));
     
     delay(2000);
-    uint8_t game;
+    uint8_t game = 1;
 
 MAIN_LOOP:
 
     bopit.await_coin();
     delay(500);
 
-    game = 1+random()%3;
     if (game==1)
         bopit.start_slots();
     else if (game==2)
         bopit.start_roulette();
     else if (game==3)
         bopit.start_pachinko();
+    game += 1;
+
+    if (game>=4) game=1;
 
     bopit.end_game();
 

@@ -16,7 +16,7 @@ BopIt::BopIt() {
     pachinko_ball_x = 60;
     pachinko_ball_y = 15;
 
-    pinMode(COIN_PIN,INPUT);
+    pinMode(COIN_PIN,INPUT_PULLUP);
     pinMode(JX_PIN,INPUT);
     pinMode(JY_PIN,INPUT);
     pinMode(WHEEL_PIN, INPUT);
